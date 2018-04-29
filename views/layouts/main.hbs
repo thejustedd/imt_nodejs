@@ -5,9 +5,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 	<title>{{ title }}</title>
-	<link rel="shortcut icon" href="./img/icon.png" type="image/x-icon">
+
+	<link rel="icon" href="./img/favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+
 	<link rel="stylesheet" href="./css/main.css">
 </head>
 
@@ -16,22 +24,14 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-2 d-none d-sm-block">
-					<img src="./img/logo.png" alt="IMT Logo" class="header__logo">
+					<div class="header__logo">
+						<a href="/">
+							<img src="./img/logo.png" alt="IMT Logo">
+						</a>
+					</div>
 				</div>
 				<div class="col-sm-10">
-					<nav class="header__nav">
-						<ul class="nav justify-content-end">
-							<li class="nav-item">
-								<a href="/" class="nav-link active">Home</a>
-							</li>
-							<li class="nav-item">
-								<a href="/about" class="nav-link">About</a>
-							</li>
-							<li class="nav-item">
-								<a href="/medusa" class="nav-link">Medusa</a>
-							</li>
-						</ul>
-					</nav>
+					{{> header }}
 				</div>
 			</div>
 		</div>
@@ -61,6 +61,12 @@
 			</div>
 		</div>
 	</footer>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+
+	<script src="./js/main.js" defer></script>
 </body>
 
 </html>
