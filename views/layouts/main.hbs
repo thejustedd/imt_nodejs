@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>{{ title }}</title>
+	<link rel="shortcut icon" href="./img/icon.png" type="image/x-icon">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="./css/main.css">
+</head>
+
+<body>
+	<header class="header">
+		<div class="container">
+			<div class="row">
+				<div class="col-2 d-none d-sm-block">
+					<img src="./img/logo.png" alt="IMT Logo" class="header__logo">
+				</div>
+				<div class="col-sm-10">
+					<nav class="header__nav">
+						<ul class="nav justify-content-end">
+							<li class="nav-item">
+								<a href="/" class="nav-link active">Home</a>
+							</li>
+							<li class="nav-item">
+								<a href="/about" class="nav-link">About</a>
+							</li>
+							<li class="nav-item">
+								<a href="/medusa" class="nav-link">Medusa</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</header>
+	<section class="banner text-center">
+		<div class="container_fluid">
+			<div class="row no-gutters">
+				<div class="col">
+					<h1 class="banner__title">Creating a unique look.</h1>
+					<p class="banner__text">Never been easier.</p>
+					<button class="banner__btn text-uppercase">See Features</button>
+					<button class="banner__btn text-uppercase">Purchase Now</button>
+				</div>
+			</div>
+		</div>
+	</section>
+	{{{ body }}}
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="socials">
+						<h4>Socials</h4>
+					</div>
+				</div>
+				<div class="col"></div>
+			</div>
+		</div>
+	</footer>
+</body>
+
+</html>
