@@ -8,7 +8,6 @@
 
 	<title>{{ title }}</title>
 
-	<link rel="icon" href="./img/favicon.ico" type="image/x-icon">
 	<link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
@@ -17,54 +16,17 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
 
 	<link rel="stylesheet" href="./css/main.css">
+	<link rel="stylesheet" href="./css/media.css">
 </head>
 
 <body>
-	<header class="header">
-		<div class="container">
-			<div class="row">
-				<div class="col-2 d-none d-sm-block">
-					<div class="header__logo">
-						<a href="/">
-							<img src="./img/logo.png" alt="IMT Logo">
-						</a>
-					</div>
-				</div>
-				<div class="col-sm-10">
-					{{> header }}
-				</div>
-			</div>
-		</div>
-	</header>
-	<section class="banner text-center">
-		<div class="container_fluid">
-			<div class="row no-gutters">
-				<div class="col">
-					<h1 class="banner__title">Creating a unique look.</h1>
-					<p class="banner__text">Never been easier.</p>
-					<button class="banner__btn text-uppercase">See Features</button>
-					<button class="banner__btn text-uppercase">Purchase Now</button>
-				</div>
-			</div>
-		</div>
-	</section>
 	{{{ body }}}
-	<footer class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-					<div class="socials">
-						<h4>Socials</h4>
-					</div>
-				</div>
-				<div class="col"></div>
-			</div>
-		</div>
-	</footer>
 
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js" defer></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.3.5/jquery.fancybox.min.js" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" defer></script> {{!--
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.0/socket.io.js" defer></script> --}}
+	<script src="/socket.io/socket.io.js"></script>
 
 	<script src="./js/main.js" defer></script>
 </body>

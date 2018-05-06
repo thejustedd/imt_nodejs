@@ -1,26 +1,5 @@
 $(() => {
-	// ALL
-	$('.active').on('click', (e) => { e.preventDefault(); });
-
-	// MEDUSA
-	function rand(min, max) {
-		let rand = min + Math.random() * (max + 1 - min);
-		return Math.floor(rand);
-	}
-
-	function getRandLetter() {
-		return String.fromCharCode(rand(65, 90));
-	}
-
-	function getRandLetter() {
-		return String.fromCharCode(rand(65, 90));
-	}
-
-	let interval = setInterval(() => console.log(getRandLetter()), 5000);
-	setTimeout(() => {
-		clearInterval(interval);
-		console.log('Generating random letters is over');
-	}, 50500);
+	$('.active').on('click', e => { e.preventDefault(); });
 
 	$('[data-fancybox="gallery"]').fancybox({
 		loop: true
@@ -36,4 +15,32 @@ $(() => {
 			768: { items: 2 }
 		}
 	});
+
+	const socket = io();
+
+	socket.on('connection', msg => {
+		console.log(msg);
+	});
+
+	$('#chatForm').on('submit', event => {
+		event.preventDefault();
+
+		socket.emit('client message', {
+			name: $('#userName').val(),
+			message: $('#userMessage').val()
+		});
+
+		$('#userMessage').val('');
+	});
+
+	socket.on('server answer', data => {
+		console.log(data);
+		$('.chat-area').append(data);
+	});
+
+	// $('#userMessage').keyup((event) => {
+	// 	if (event.keyCode == 13) {
+	// 		$('#chatBtn').click();
+	// 	}
+	// });
 });

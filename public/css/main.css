@@ -1,8 +1,13 @@
+html, body {
+	height: 100%;
+}
+
 .header {
-	position: fixed;
+	/* position: fixed; */
 	width: 100%;
-	height: 40px;
-	background-color: rgba(255, 255, 255, .95);
+	min-height: 40px;
+	/* background-color: rgba(255, 255, 255, .95); */
+	background-color: #fff;
 	z-index: 10;
 }
 
@@ -30,19 +35,39 @@
 
 .banner {
 	position: relative;
+	/* height: 100vh; */
+	/* display: flex; */
+	/* justify-content: center; */
+	/* align-items: center; */
+
+	/* align-content: center; */
 	padding: 20% 0;
+	/* flex-direction: row; */
+
 	background: #111 url('../img/banner.jpg') fixed center center no-repeat;
 	background-size: cover;
+	text-align: center;
 	color: #fff;
+}
+
+.banner__content {
+	/* align-self: center; */
+	/* align-items: center; */
+	/* display: flex; */
+	/* min-height: 100vh; */
+	/* min-height: calc("100vh - 40px"); */
+	/* justify-content: center; */
+	/* align-content: center; */
+	/* flex-direction: column; */
 }
 
 .banner::before {
 	position: absolute;
 	display: block;
-	width: 100%;
-	height: 100%;
 	top: 0;
+	bottom: 0;
 	left: 0;
+	right: 0;
 	content: '';
 	background: linear-gradient(transparent, #000);
 }
@@ -57,12 +82,6 @@
 	color: #02baab;
 }
 
-@media (max-width: 768px) {
-	.banner__title, .banner__text {
-		font-size: 40px;
-	}
-}
-
 .banner__btn {
 	margin: 5px 1%;
 	padding: 10px 25px;
@@ -71,6 +90,7 @@
 	font-size: 14px;
 	color: #fff;
 	transition: background-color .2s, color .2s;
+	cursor: pointer;
 }
 .banner__btn:hover {
 	background-color: transparent;
@@ -81,19 +101,62 @@
 	transform: scale(0.95);
 }
 
-@media (max-width: 768px) {
-	.banner__btn {
-		padding: 5px 15px;
-		font-size: 12px;
-	}
-}
-
 .content {
 	padding: 50px 0;
 }
 
 .gallery {
 	padding: 50px 0;
+}
+
+.chat {
+	min-height: calc(100% - 40px);
+	background-color: #02baab;
+	padding: 50px 0 170px;
+}
+
+.chat-area {
+	/* background-color: #02baab; */
+}
+
+.chat-form {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 10px 10px 0;
+	background-color: #02baab50;
+}
+
+.chat-form .input-group {
+	margin-bottom: 10px;
+}
+
+/* .chat-form .form-control {
+	height: 38px;
+} */
+
+.message {
+	background-color: #fff;
+}
+
+.avatar {
+	padding: 5px 0;
+	text-align: right;
+}
+
+.avatar__img {
+	width: 50px;	
+}
+
+.message__content {
+}
+
+#chatEmoji {
+	cursor: pointer;
+}
+
+#chatEmoji:hover {
+	background-color: #fff;
 }
 
 .footer {
