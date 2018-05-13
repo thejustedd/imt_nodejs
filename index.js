@@ -6,7 +6,15 @@ const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http, { serveClient: true });
 const emojer = require('emojer.js');
+const sqlite = require('sqlite');
+const Promise = require('bluebird');
 const urlRegEx = /((http|https|www):\/\/[a-zа-я0-9\w?=&.\/-;#~%-]+(?![a-zа-я0-9\w\s?&.\/;#~%"=-]*>))/g;
+
+// const dbPromise = sqlite.open(path.join(__dirname, 'database.sqlite'), { Promise });
+
+const dbPromise = Promise.resolve()
+	.then(() => sqlite.open(path.join(__dirname, 'database.sqlite'), { Promise }))
+	.then(db => db.migrate({ force: 'last' }));
 
 app.locals.pages = [
 	{ title: 'Home', link: '/' },
@@ -65,18 +73,39 @@ function sendMessage(to, msgObj) {
 	}
 }
 
-let messages = [];
+var entityMap = {
+	'&': '&amp;',
+	'<': '&lt;',
+	'>': '&gt;',
+	'"': '&quot;',
+	"'": '&#39;',
+	'/': '&#x2F;',
+	'`': '&#x60;',
+	'=': '&#x3D;'
+};
+
+function escapeHtml(string) {
+	return String(string).replace(/[&<>"'`=\/]/g, s => entityMap[s]);
+}
+
+// let messages = [];
 io.on('connection', socket => {
 	socket.emit('connection', 'You have been connected');
 
-	messages.forEach(msgObj => sendMessage(socket, msgObj));
+	// messages.forEach(msgObj => sendMessage(socket, msgObj));
+	dbPromise
+		.then(db => db.all('SELECT * FROM Messages'))
+		.then(messages => messages.forEach(msgObj => sendMessage(socket, msgObj)));
 
 	socket.on('client message', msgObj => {
 		msgObj.date = new Date().toLocaleTimeString();
-		msgObj.message = emojer.parse(msgObj.message).replace(urlRegEx, '<a href="$&" target="_blank">$&</a>');
+		// msgObj.message = msgObj.message.replace(urlRegEx, '<a href="$&" target="_blank">$&</a>');
+		msgObj.message = emojer.parse(msgObj.message);
+		msgObj.message = escapeHtml(msgObj.message);
 
 		sendMessage(socket, msgObj);
 		sendMessage(socket.broadcast, msgObj);
-		messages.push(msgObj);
+		dbPromise.then(db => db.get(`INSERT INTO Messages (date, name, message) VALUES ('${msgObj.date}', '${msgObj.name}', '${msgObj.message}')`));
+		// messages.push(msgObj);
 	});
 });
