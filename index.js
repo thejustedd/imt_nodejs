@@ -5,12 +5,11 @@ const fs = require('fs');
 const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http, { serveClient: true });
+const dl = require('delivery');
 const emojer = require('emojer.js');
 const sqlite = require('sqlite');
 const Promise = require('bluebird');
 const urlRegEx = /((http|https|www):\/\/[a-zа-я0-9\w?=&.\/-;#~%-]+(?![a-zа-я0-9\w\s?&.\/;#~%"=-]*>))/g;
-
-// const dbPromise = sqlite.open(path.join(__dirname, 'database.sqlite'), { Promise });
 
 const dbPromise = Promise.resolve()
 	.then(() => sqlite.open(path.join(__dirname, 'database.sqlite'), { Promise }))
@@ -23,6 +22,7 @@ app.locals.pages = [
 	{ title: 'Chat', link: '/chat' }
 ];
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/delivery/lib/client', express.static(path.join(__dirname, 'node_modules', 'delivery', 'lib', 'client')));
 
 app.use((req, res, next) => {
 	app.locals.page_link = req.originalUrl;
@@ -51,27 +51,12 @@ app.get('/medusa', (req, res) => {
 });
 
 app.get('/chat', (req, res) => {
-	res.render('chat', { title: 'Chat Page' });
+	res.render('chat', { layout: false, title: 'Chat Page' });
 });
 
 http.listen(9090, () => {
 	console.log('Server running on port 9090');
 });
-
-let template = '';
-function sendMessage(to, msgObj) {
-	if (template) to.emit('server answer', template(msgObj).replace(urlRegEx, '<a href="$&" target="_blank">$&</a>'));
-	else {
-		fs.readFile('./views/partials/message.hbs', { encoding: 'utf8' }, (err, data) => {
-			if (err) return console.error(err);
-
-			const handlebars = require('handlebars');
-			template = handlebars.compile(data);
-
-			to.emit('server answer', template(msgObj));
-		});
-	}
-}
 
 var entityMap = {
 	'&': '&amp;',
@@ -88,24 +73,54 @@ function escapeHtml(string) {
 	return String(string).replace(/[&<>"'`=\/]/g, s => entityMap[s]);
 }
 
-// let messages = [];
+let template = '';
+function sendMessage(to, msg) {
+	if (template) to.emit('server answer', template(msg));
+	else {
+		fs.readFile('./views/partials/message.hbs', { encoding: 'utf8' }, (err, data) => {
+			if (err) return console.error(err);
+
+			const handlebars = require('handlebars');
+			template = handlebars.compile(data);
+
+			to.emit('server answer', template(msg));
+		});
+	}
+}
+
 io.on('connection', socket => {
 	socket.emit('connection', 'You have been connected');
 
-	// messages.forEach(msgObj => sendMessage(socket, msgObj));
 	dbPromise
-		.then(db => db.all('SELECT * FROM Messages'))
-		.then(messages => messages.forEach(msgObj => sendMessage(socket, msgObj)));
+		.then(db => db.all('SELECT date, sender, content FROM Message LIMIT 50'))
+		.then(messages => messages.forEach(msg => sendMessage(socket, msg)));
 
-	socket.on('client message', msgObj => {
-		msgObj.date = new Date().toLocaleTimeString();
-		// msgObj.message = msgObj.message.replace(urlRegEx, '<a href="$&" target="_blank">$&</a>');
-		msgObj.message = emojer.parse(msgObj.message);
-		msgObj.message = escapeHtml(msgObj.message);
+	var filename;
+	var chatdir = 'img/chat';
+	var delivery = dl.listen(socket);
+	delivery.on('receive.success', file => {
+		var params = file.params;
+		filename = params.id + '-' + file.name;
+		var filepath = './public/' + chatdir + '/' + filename;
 
-		sendMessage(socket, msgObj);
-		sendMessage(socket.broadcast, msgObj);
-		dbPromise.then(db => db.get(`INSERT INTO Messages (date, name, message) VALUES ('${msgObj.date}', '${msgObj.name}', '${msgObj.message}')`));
-		// messages.push(msgObj);
+		fs.writeFile(filepath, file.buffer, err => {
+			err ? console.log('File "' + filename + '" could not be saved') : console.log('File ' + filename + ' saved');
+		});
+	});
+
+	socket.on('client message', msg => {
+		msg.date = new Date().toLocaleTimeString();
+		// msg.content = msg.content.replace(urlRegEx, '<a href="$&" target="_blank">$&</a>');
+		msg.content = emojer.parse(msg.content);
+		msg.content = escapeHtml(msg.content);
+
+		if (filename) {
+			msg.content += `<br><img src="${chatdir}/${filename}" alt="${filename}" style="max-width: 256px; max-height: 256px">`;
+			filename = '';
+		}
+
+		sendMessage(socket, msg);
+		sendMessage(socket.broadcast, msg);
+		dbPromise.then(db => db.get(`INSERT INTO Message (date, sender, content) VALUES ('${msg.date}', '${msg.sender}', '${msg.content}')`));
 	});
 });

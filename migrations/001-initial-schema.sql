@@ -1,9 +1,9 @@
 -- Up
-CREATE TABLE IF NOT EXISTS `Messages` (
+CREATE TABLE IF NOT EXISTS `Message` (
 	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	date TEXT,
-	name TEXT,
-	message TEXT
+	sender TEXT,
+	content TEXT
 )
 
 -- Down

@@ -1,9 +1,0 @@
-@media (max-width: 768px) {
-	.banner__title, .banner__text {
-		font-size: 40px;
-	}
-	.banner__btn {
-		padding: 5px 15px;
-		font-size: 12px;
-	}
-}

@@ -1,14 +1,14 @@
-<div class="message row mb-3">
+<div class="message row">
 	<div class="avatar col-3 col-sm-2 col-md-1">
 		<a class="avatar__link" href="#">
 			<img class="avatar__img" src="./img/avatar.png">
 		</a>
 	</div>
 	<div class="message__content col-9 col-sm-10 col-md-11">
-		<a class="message__author" href="#">{{ name }}</a>
+		<a class="message__author" href="#">{{ sender }}</a>
 		<span class="message__date text-muted">{{ date }}</span>
 		<div class="message__text">
-			<pre style="white-space: pre-wrap;">{{{ message }}}</pre>
+			<pre style="white-space: pre-wrap;">{{{ content }}}</pre>
 		</div>
 	</div>
 </div>

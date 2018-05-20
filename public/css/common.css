@@ -1,0 +1,33 @@
+html, body {
+	height: 100%;
+}
+
+.header {
+	position: fixed;
+	width: 100%;
+	height: 40px;
+	background-color: #fff;
+	z-index: 10;
+}
+
+.header__logo img {
+	height: 40px;
+}
+
+.header__nav a {
+	color: #000;
+}
+
+.header__nav a:hover {
+	color: #02baab;
+}
+
+.header__nav .active {
+	background-color: #02baab;
+	color: #fff;
+	cursor: default;
+}
+
+.header__nav .active:hover {
+	color: #fff;
+}

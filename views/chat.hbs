@@ -1,36 +1,62 @@
-{{> header }}
-<section class="chat">
-	<div class="chat-area container">
+<!DOCTYPE html>
+<html lang="en">
 
-		{{!-- {{> message }} --}}
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-	</div>
-	<form class="chat-form" id="chatForm">
-		<div class="form-row">
-			<div class="col-sm-3">
-				<div class="input-group">
-					<input id="userName" class="form-control" type="text" name="name" placeholder="Input your name" required>
-				</div>
-			</div>
-			<div class="col-sm-7">
-				<div class="input-group">
-					<input id="userMessage" class="form-control" type="text" name="message" placeholder="Input your message" required>
-					<div class="input-group-append">
-						<span id="chatEmoji" class="input-group-text">emoji</span>
-					</div>
-				</div>
+	<title>{{ title }}</title>
 
-				{{!--
-				<div class="input-group">
-					<textarea id="userMessage" class="form-control" type="text" name="message" rows="3" placeholder="Input your message" required></textarea>
-					<div class="input-group-append">
-						<span id="chatEmoji" class="input-group-text">emoji</span>
-					</div>
-				</div> --}}
-			</div>
-			<div class="col-sm-2">
-				<button id="chatBtn" class="btn btn-light w-100">Send</button>
-			</div>
+	<link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon">
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="./css/common.css">
+	<link rel="stylesheet" href="./css/chat.css">
+</head>
+
+<body>
+	{{> header }}
+	<section class="chat">
+		<div id="chatArea" class="chat-area container">
+			{{!-- {{> message }} --}}
 		</div>
-	</form>
-</section>
+		<form class="chat-form" id="chatForm">
+			<div class="form-row">
+				<div class="col-md-2">
+					<div class="input-group mb-2">
+						<input id="userName" class="form-control" type="text" name="name" placeholder="Your name" required>
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="input-group mb-2">
+						<textarea id="userMessage" class="form-control" type="text" name="message" rows="2" placeholder="Your message" required></textarea>
+						<div class="input-group-append">
+							<span id="chatEmoji" class="input-group-text">emoji</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="row">
+						<div class="col-12">
+							<input id="fileBtn" class="form-control mb-2" type="file">
+						</div>
+						<div class="col-12">
+							<button id="sendBtn" class="btn btn-light w-100 mb-2">Send</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</section>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+	<script src="/delivery/lib/client/delivery.js"></script>
+
+	<script src="./js/common.js"></script>
+	<script src="./js/chat.js"></script>
+</body>
+
+</html>
